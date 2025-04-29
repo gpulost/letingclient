@@ -38,3 +38,6 @@ API_KEY=<your_api_key> sh run_chat_test.sh
 
 ### 4. 查看结果
 测试完成后，可以在`output`目录中查看输出结果。  
+
+## chat_use_microphone.cpp
+demo 使用麦克风测试
