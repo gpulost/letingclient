@@ -1,0 +1,30 @@
+FROM ubuntu:22.04
+
+# 避免交互式提示
+ENV DEBIAN_FRONTEND=noninteractive
+
+# 配置清华镜像源
+RUN sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list && \
+    sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
+
+# 只安装运行时所需的库
+RUN apt-get update && apt-get install -y \
+    libboost-system1.74.0 \
+    libssl3 \
+    libjsoncpp25 \
+    && rm -rf /var/lib/apt/lists/*
+
+# 设置工作目录
+WORKDIR /app
+
+# 创建必要的目录
+RUN mkdir -p cases output
+
+# 将可执行文件复制到容器中
+COPY bin/chat_test .
+
+# API_KEY将在运行时通过-e选项传入
+ENV API_KEY=""
+
+# 设置入口点
+ENTRYPOINT ["./chat_test"] 
